@@ -1,0 +1,78 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+  <h:outputScript name="myScript.js" library="scripts" target="head"/>
+  <h:outputStylesheet name="myCSS.css" library="css"/>
+</h:head>
+
+<h:body>
+  <a href="#{resource['img/simple_image.jpg']}">click here</a>
+  <h:graphicImage library="img" name="simple_image.jpg"/>
+
+  <h:form>
+    <h:panelGrid columns="3">
+      <h:outputText value="Name:"/>
+      <h:inputText value="#{user.name}" id="name">
+        <f:validator validatorId="nameValidator"/>
+      </h:inputText>
+      <h:message for="name" style="color: red"/>
+      <h:outputText value="Password:"/>
+      <h:inputText value="#{user.password}" id="password"/>
+      <h:message for="password" style="color: red"/>
+    </h:panelGrid>
+
+    <h:commandButton actionListener="#{userService.register}"
+                     id="loginButton"
+                     action="status"
+                     value="submit"/>
+  </h:form>
+
+  <hr/>
+
+  AJAX
+
+  <h:form prependId="false">
+
+    <f:ajax listener="#{user.checkFormat}" render="status">
+      <h:inputText value="#{user.name}" id="ajaxName"/>
+      <h:inputText value="#{user.password}" id="ajaxPassword"/>
+    </f:ajax>
+
+    <h:commandButton actionListener="#{user.login}"
+                     value="Login"
+                     type="button">
+      <f:ajax execute="ajaxName ajaxPassword" render="status"/>
+    </h:commandButton>
+
+    <h:outputText value="#{user.status}" id="status"/>
+
+  </h:form>
+  <hr/>
+
+  MyBean Validation
+  <h:form>
+    <h:panelGrid columns="3">
+
+      <h:outputLabel value="Name:" for="beanName"/>
+      <h:inputText value="#{myBean.name}" id="beanName"/>
+      <h:message for="beanName" style="color: red"/>
+
+      <h:outputLabel value="Age:" for="beanAge"/>
+      <h:inputText value="#{myBean.age}" id="beanAge"/>
+      <h:message for="beanAge" style="color: red"/>
+
+      <h:outputLabel value="ZIP:" for="beanZip"/>
+      <h:inputText value="#{myBean.zip}" id="beanZip"/>
+      <h:message for="beanZip" style="color: red"/>
+
+    </h:panelGrid>
+
+    <h:commandButton value="Submit"/>
+
+  </h:form>
+</h:body>
+</html>
